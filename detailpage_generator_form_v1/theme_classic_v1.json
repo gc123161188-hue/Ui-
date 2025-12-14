@@ -1,0 +1,93 @@
+{
+  "assets": {
+    "header_logo": "assets/logo.jpg",
+    "header_badges": [
+      "assets/badge1.png",
+      "assets/badge2.png",
+      "assets/badge3.png"
+    ],
+    "section_icons": {
+      "target_group": "assets/i_people.png",
+      "efficacy": "assets/i_effect.png",
+      "usage": "assets/i_usage.png",
+      "ingredients": "assets/i_ing.png",
+      "notice": "assets/i_warn.png"
+    },
+    "background_texture": null
+  },
+  "colors": {
+    "primary": "#29947E",
+    "title_bar_bg": "#D5E5E2",
+    "divider": "#A8A6A7",
+    "text": "#222222",
+    "tag_bg": "#EEEEEE",
+    "tag_border": "#D2D2D2",
+    "tag_text": "#5A5A5A"
+  },
+  "layout": {
+    "page_width": 750,
+    "padding_left": 24,
+    "padding_right": 24,
+    "left_border_width": 16,
+    "header_height": 160,
+    "badge_size": 82,
+    "badge_gap": 14,
+    "gap_after_header": 16,
+    "product_image_height": 260,
+    "product_image_padding": 16,
+    "product_info_height": 170,
+    "title_bar_height": 44,
+    "icon_size": 54,
+    "section_gap": 18
+  },
+  "tags": {
+    "enabled": true,
+    "items": [
+      {
+        "key": "pzn",
+        "label": "PZN",
+        "enabled": true
+      },
+      {
+        "key": "spec",
+        "label": "规格",
+        "enabled": true
+      },
+      {
+        "key": "weight",
+        "label": "重量",
+        "enabled": true
+      }
+    ],
+    "style": {
+      "height": 40,
+      "radius": 14,
+      "padding_x": 16,
+      "gap": 16
+    }
+  },
+  "sections_order": [
+    "target_group",
+    "efficacy",
+    "usage",
+    "ingredients",
+    "notice"
+  ],
+  "sections_meta": {
+    "target_group": {
+      "title": "适用人群"
+    },
+    "efficacy": {
+      "title": "药品功效"
+    },
+    "usage": {
+      "title": "用法用量"
+    },
+    "ingredients": {
+      "title": "成分"
+    },
+    "notice": {
+      "title": "禁忌注意"
+    }
+  }
+}

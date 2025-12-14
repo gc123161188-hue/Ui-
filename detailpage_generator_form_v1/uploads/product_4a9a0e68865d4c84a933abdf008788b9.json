@@ -1,0 +1,32 @@
+{
+  "package_image": "assets/sample_package.png",
+  "title_cn": "等我稳定稳定",
+  "title_original": "",
+  "subtitle": "",
+  "tags": {
+    "pzn": "",
+    "spec": "",
+    "weight": ""
+  },
+  "sections": {
+    "target_group": {
+      "text_blocks": [],
+      "list": []
+    },
+    "efficacy": {
+      "text_blocks": [],
+      "list": []
+    },
+    "usage": {
+      "text_blocks": [],
+      "list": []
+    },
+    "ingredients": {
+      "groups": []
+    },
+    "notice": {
+      "text_blocks": [],
+      "list": []
+    }
+  }
+}

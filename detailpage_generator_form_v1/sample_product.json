@@ -1,0 +1,65 @@
+{
+  "package_image": "assets/sample_package.png",
+  "title_cn": "中文主标题（示例）",
+  "title_original": "Orthomol Cellprotect",
+  "subtitle": "副标题/补充说明（示例）",
+  "tags": {
+    "pzn": "18259164",
+    "spec": "30套包",
+    "weight": "0.72kg"
+  },
+  "sections": {
+    "target_group": {
+      "text_blocks": [
+        "18岁以上成人，用于细胞保护、促进细胞自我修复机制，维持老年健康。"
+      ],
+      "list": []
+    },
+    "efficacy": {
+      "text_blocks": [
+        "这里放功效段落（示例）。"
+      ],
+      "list": [
+        "要点1（示例）",
+        "要点2（示例）"
+      ]
+    },
+    "usage": {
+      "text_blocks": [
+        "这里放用法用量段落（示例）。"
+      ],
+      "list": [
+        "每日1次（示例）",
+        "随餐/饭后（示例）"
+      ]
+    },
+    "ingredients": {
+      "groups": [
+        {
+          "name": "1套包含（示例）",
+          "items": [
+            {
+              "name": "维生素C",
+              "amount": "100",
+              "unit": "mg"
+            },
+            {
+              "name": "维生素E",
+              "amount": "15",
+              "unit": "mg"
+            }
+          ]
+        }
+      ]
+    },
+    "notice": {
+      "text_blocks": [
+        "这里放禁忌注意段落（示例）。"
+      ],
+      "list": [
+        "注意1（示例）",
+        "注意2（示例）"
+      ]
+    }
+  }
+}

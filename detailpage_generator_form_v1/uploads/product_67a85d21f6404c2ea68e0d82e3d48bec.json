@@ -1,0 +1,32 @@
+{
+  "package_image": "uploads/package_67a85d21f6404c2ea68e0d82e3d48bec_WeChat553c29157167e9045d6fd8839a8ce5d8.jpg",
+  "title_cn": "爱他美奶粉",
+  "title_original": "",
+  "subtitle": "",
+  "tags": {
+    "pzn": "1222",
+    "spec": "144441",
+    "weight": "44121"
+  },
+  "sections": {
+    "target_group": {
+      "text_blocks": [],
+      "list": []
+    },
+    "efficacy": {
+      "text_blocks": [],
+      "list": []
+    },
+    "usage": {
+      "text_blocks": [],
+      "list": []
+    },
+    "ingredients": {
+      "groups": []
+    },
+    "notice": {
+      "text_blocks": [],
+      "list": []
+    }
+  }
+}

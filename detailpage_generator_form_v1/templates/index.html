@@ -1,0 +1,61 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>详情页生成器（原型）</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; margin:24px; color:#222}
+    .card{max-width:860px; border:1px solid #ddd; border-radius:12px; padding:18px}
+    label{display:block; margin:14px 0 6px; font-weight:600}
+    input[type=file]{width:100%}
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    .row > *{flex:1 1 260px}
+    button{padding:10px 14px; border-radius:10px; border:1px solid #222; background:#fff; cursor:pointer}
+    .muted{color:#666; font-size:14px; line-height:1.5}
+    .actions{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap}
+    .tip{background:#f6f6f6; padding:10px 12px; border-radius:10px; margin-top:14px}
+  </style>
+</head>
+<body>
+  <h2>详情页生成器（可体验原型）</h2>
+  <div class="card">
+    <p class="muted">上传 <b>product.json</b>（必填），可选上传 <b>theme.json</b>（替换固定素材/样式）以及 <b>包装图</b>（覆盖 product.json 里的 package_image）。生成后会下载 PNG 长图。</p>
+
+    <form action="/render" method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div>
+          <label>product.json（必填）</label>
+          <input type="file" name="product" accept=".json" required />
+        </div>
+        <div>
+          <label>theme.json（可选，用于替换固定素材/样式）</label>
+          <input type="file" name="theme" accept=".json" />
+        </div>
+      </div>
+
+      <label>包装图（可选，覆盖 product.json 的 package_image）</label>
+      <input type="file" name="package_image" accept="image/*" />
+
+      <div class="actions">
+        <button type="submit">生成详情页 PNG</button>
+        <a href="/sample"><button type="button">下载示例输出</button></a>
+      </div>
+
+      <div class="tip">
+        <div class="muted">
+          默认主题已内置（含 Wolf LOGO + 徽章/图标占位）。<br/>
+          你们后续“升级UI”只要替换 theme.json 里的 assets/颜色/边距参数即可，不用动渲染逻辑。
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <h3>本地运行</h3>
+  <pre>pip install flask pillow
+python app.py
+# 浏览器打开 http://127.0.0.1:7860</pre>
+
+</body>
+</html>

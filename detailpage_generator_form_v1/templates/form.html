@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>详情页生成器（在线填写版）</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; margin:18px; color:#222}
+    h2{margin:0 0 10px}
+    .wrap{display:grid; grid-template-columns: 420px 1fr; gap:16px; align-items:start}
+    .panel{border:1px solid #ddd; border-radius:12px; padding:14px; background:#fff}
+    label{display:block; margin:10px 0 6px; font-weight:600; font-size:13px}
+    input[type=text], textarea{width:100%; box-sizing:border-box; border:1px solid #ddd; border-radius:10px; padding:10px; font-size:14px}
+    textarea{min-height:70px; resize:vertical}
+    .row{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px}
+    .row2{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    .muted{color:#666; font-size:12px; line-height:1.5}
+    .btnbar{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+    button{padding:10px 12px; border-radius:10px; border:1px solid #222; background:#fff; cursor:pointer; font-weight:700}
+    button:disabled{opacity:.5; cursor:not-allowed}
+    .preview{border:1px dashed #ccc; border-radius:12px; padding:10px; min-height:240px; display:flex; align-items:center; justify-content:center; background:#fafafa}
+    .preview img{max-width:100%; height:auto; display:block}
+    .small{font-size:12px}
+    .hint{background:#f6f6f6; border-radius:12px; padding:10px; margin-top:12px}
+    .split{display:grid; grid-template-columns: 1fr; gap:10px}
+  </style>
+</head>
+<body>
+  <h2>详情页生成器（在线填写版 · 原型A）</h2>
+  <div class="muted">图片素材用上传（包装图/可选主题/可选徽章等以后再加），文字内容直接在左侧填写。右侧会自动刷新预览。满意后点“导出PNG”。</div>
+  <div class="wrap" style="margin-top:14px">
+    <div class="panel">
+      <form id="f" class="split" onsubmit="return false;">
+        <div>
+          <label>包装图（可选，建议上传）</label>
+          <input type="file" id="package_image" accept="image/*"/>
+          <div class="muted">不上传也能预览（会用默认占位图）。</div>
+        </div>
+
+        <div>
+          <label>中文主标题</label>
+          <input type="text" id="title_cn" placeholder="例如：德国Orthomol 细胞保护复合营养素 30套包"/>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label>原名/德文名</label>
+            <input type="text" id="title_original" placeholder="Orthomol Cellprotect"/>
+          </div>
+          <div>
+            <label>副标题/补充说明</label>
+            <input type="text" id="subtitle" placeholder="一句话说明（可选）"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>PZN</label>
+            <input type="text" id="pzn" placeholder="18259164"/>
+          </div>
+          <div>
+            <label>规格</label>
+            <input type="text" id="spec" placeholder="30套包"/>
+          </div>
+          <div>
+            <label>重量</label>
+            <input type="text" id="weight" placeholder="0.72kg"/>
+          </div>
+        </div>
+
+        <div class="hint">
+          <div class="small"><b>模块内容（直接粘贴文本即可）</b></div>
+          <label>适用人群</label>
+          <textarea id="target_group_text" placeholder="一段话即可"></textarea>
+
+          <label>药品功效（段落）</label>
+          <textarea id="efficacy_text"></textarea>
+          <label>药品功效（要点，用；分隔）</label>
+          <input type="text" id="efficacy_list" placeholder="要点1；要点2；要点3"/>
+
+          <label>用法用量（段落）</label>
+          <textarea id="usage_text"></textarea>
+          <label>用法用量（要点，用；分隔）</label>
+          <input type="text" id="usage_list" placeholder="每日1次；随餐/饭后"/>
+
+          <label>成分（简易版：每行一条，如“维生素C 100mg”）</label>
+          <textarea id="ingredients_lines" placeholder="维生素C 100mg&#10;维生素E 15mg"></textarea>
+          <div class="muted">原型A先做“简易成分输入”。后续可升级为可增删行/分组表格，完全贴合你模板里的分组结构。</div>
+
+          <label>禁忌注意（段落）</label>
+          <textarea id="notice_text"></textarea>
+          <label>禁忌注意（要点，用；分隔）</label>
+          <input type="text" id="notice_list" placeholder="注意1；注意2"/>
+        </div>
+
+        <div class="btnbar">
+          <button id="btn_export" disabled>导出PNG</button>
+          <button id="btn_sample" type="button">填入示例</button>
+        </div>
+      </form>
+      <div class="muted" style="margin-top:10px">
+        自动预览：停止输入约 0.6 秒后刷新。若你觉得频繁，可把刷新改成“点击生成”。（我也能帮你改）
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="small" style="margin-bottom:8px"><b>实时预览</b></div>
+      <div class="preview" id="preview">
+        <div class="muted">等待生成…</div>
+      </div>
+      <div class="muted" style="margin-top:10px">
+        提示：预览图每次生成都会重新下载一张 PNG（这是原型A的实现方式）。后续可优化为缓存/分块渲染。
+      </div>
+    </div>
+  </div>
+
+<script>
+const $ = (id)=>document.getElementById(id);
+
+function splitList(s){
+  s = (s||"").trim();
+  if(!s) return [];
+  return s.split("；").map(x=>x.trim()).filter(Boolean);
+}
+
+function buildProductJSON(){
+  const ingredientsLines = ($("ingredients_lines").value||"").split("\n").map(x=>x.trim()).filter(Boolean);
+  const items = ingredientsLines.map(line=>{
+    const m = line.match(/^(.+?)\s+([\d\.]+)\s*([a-zA-Zµμ]+)?$/);
+    if(m){
+      return {name: m[1].trim(), amount: m[2], unit: (m[3]||"")};
+    }
+    return {name: line, amount: "", unit: ""};
+  });
+
+  return {
+    package_image: "assets/sample_package.png",
+    title_cn: $("title_cn").value || "",
+    title_original: $("title_original").value || "",
+    subtitle: $("subtitle").value || "",
+    tags: {
+      pzn: $("pzn").value || "",
+      spec: $("spec").value || "",
+      weight: $("weight").value || ""
+    },
+    sections: {
+      target_group: { text_blocks: [$("target_group_text").value||""].filter(Boolean), list: [] },
+      efficacy: { text_blocks: [$("efficacy_text").value||""].filter(Boolean), list: splitList($("efficacy_list").value) },
+      usage: { text_blocks: [$("usage_text").value||""].filter(Boolean), list: splitList($("usage_list").value) },
+      ingredients: { groups: items.length ? [{name:"成分", items}] : [] },
+      notice: { text_blocks: [$("notice_text").value||""].filter(Boolean), list: splitList($("notice_list").value) }
+    }
+  }
+}
+
+let timer = null;
+let lastBlob = null;
+
+async function renderPreview(){
+  const product = buildProductJSON();
+  const fd = new FormData();
+  fd.append("product_json", JSON.stringify(product));
+  const file = $("package_image").files[0];
+  if(file) fd.append("package_image", file);
+
+  $("btn_export").disabled = true;
+  const preview = $("preview");
+  preview.innerHTML = '<div class="muted">生成中…</div>';
+
+  const res = await fetch("/api/render_from_form", { method:"POST", body: fd });
+  if(!res.ok){
+    const t = await res.text();
+    preview.innerHTML = '<div class="muted">生成失败：'+ t +'</div>';
+    return;
+  }
+  const blob = await res.blob();
+  lastBlob = blob;
+
+  const url = URL.createObjectURL(blob);
+  preview.innerHTML = "";
+  const img = document.createElement("img");
+  img.src = url;
+  img.onload = ()=>URL.revokeObjectURL(url);
+  preview.appendChild(img);
+
+  $("btn_export").disabled = false;
+}
+
+function schedule(){
+  clearTimeout(timer);
+  timer = setTimeout(()=>renderPreview().catch(console.error), 600);
+}
+
+["title_cn","title_original","subtitle","pzn","spec","weight","target_group_text","efficacy_text","efficacy_list","usage_text","usage_list","ingredients_lines","notice_text","notice_list"]
+  .forEach(id=>{
+    $(id).addEventListener("input", schedule);
+  });
+
+$("package_image").addEventListener("change", schedule);
+
+$("btn_export").addEventListener("click", async ()=>{
+  if(!lastBlob) return;
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(lastBlob);
+  a.download = "detail.png";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+$("btn_sample").addEventListener("click", ()=>{
+  $("title_cn").value = "德国Orthomol 细胞保护复合营养素 30套包";
+  $("title_original").value = "Orthomol Cellprotect";
+  $("subtitle").value = "支持抗氧化与细胞健康管理";
+  $("pzn").value = "18259164";
+  $("spec").value = "30套包";
+  $("weight").value = "0.72kg";
+  $("target_group_text").value = "18岁以上成人，适用于关注细胞健康、抗氧化防护及日常营养补充的人群。";
+  $("efficacy_text").value = "本品结合多种抗氧化营养素，帮助抵御氧化应激对细胞造成的影响。";
+  $("efficacy_list").value = "帮助清除自由基；支持细胞正常功能；支持能量代谢";
+  $("usage_text").value = "建议随餐或餐后服用，搭配足量温水。";
+  $("usage_list").value = "每日1次；每次1套";
+  $("ingredients_lines").value = "维生素C 100mg\n维生素E 15mg\n硒 60µg";
+  $("notice_text").value = "本品为膳食补充剂，不能替代药物。";
+  $("notice_list").value = "孕期或哺乳期请咨询医生；置于儿童不易触及处";
+  schedule();
+});
+
+schedule();
+</script>
+</body>
+</html>

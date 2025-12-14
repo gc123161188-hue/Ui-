@@ -1,0 +1,32 @@
+{
+  "package_image": "assets/sample_package.png",
+  "title_cn": "爱他美奶粉",
+  "title_original": "",
+  "subtitle": "",
+  "tags": {
+    "pzn": "1222",
+    "spec": "144441",
+    "weight": ""
+  },
+  "sections": {
+    "target_group": {
+      "text_blocks": [],
+      "list": []
+    },
+    "efficacy": {
+      "text_blocks": [],
+      "list": []
+    },
+    "usage": {
+      "text_blocks": [],
+      "list": []
+    },
+    "ingredients": {
+      "groups": []
+    },
+    "notice": {
+      "text_blocks": [],
+      "list": []
+    }
+  }
+}
