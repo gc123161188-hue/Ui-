@@ -7,30 +7,29 @@ def _hex(c):
     c=c.lstrip("#")
     return tuple(int(c[i:i+2],16) for i in (0,2,4))
 
-def _font(from pathlib import Path
-from PIL import ImageFont
-
-BASE_DIR = Path(__file__).resolve().parent
-
 def _font(size, bold=False):
-    font_path = BASE_DIR / "fonts" / "NotoSansSC-VariableFont_wght.ttf"
+    # Render(Linux) 默认没有中文字体，所以必须优先加载项目自带字体
+    base_dir = Path(__file__).resolve().parent
+    font_path = base_dir / "fonts" / "NotoSansSC-VariableFont_wght.ttf"
+
     if font_path.exists():
         try:
-            return ImageFont.truetype(
-                str(font_path),
-                size=size,
-                layout_engine=ImageFont.LAYOUT_BASIC
-            )
+            return ImageFont.truetype(str(font_path), size=size)
         except Exception:
             pass
-    return ImageFont.load_default()):
+
+    # 兜底：系统字体（一般也没有中文，但留着防崩）
     paths = [
         "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
         "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
     ]
     for p in paths:
         if os.path.exists(p):
-            return ImageFont.truetype(p, size=size)
+            try:
+                return ImageFont.truetype(p, size=size)
+            except Exception:
+                pass
+
     return ImageFont.load_default()
 
 def _load_img(path: Path):
