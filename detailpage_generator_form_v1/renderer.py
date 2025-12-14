@@ -7,7 +7,23 @@ def _hex(c):
     c=c.lstrip("#")
     return tuple(int(c[i:i+2],16) for i in (0,2,4))
 
+def _font(from pathlib import Path
+from PIL import ImageFont
+
+BASE_DIR = Path(__file__).resolve().parent
+
 def _font(size, bold=False):
+    font_path = BASE_DIR / "fonts" / "NotoSansSC-VariableFont_wght.ttf"
+    if font_path.exists():
+        try:
+            return ImageFont.truetype(
+                str(font_path),
+                size=size,
+                layout_engine=ImageFont.LAYOUT_BASIC
+            )
+        except Exception:
+            pass
+    return ImageFont.load_default()):
     paths = [
         "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
         "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
